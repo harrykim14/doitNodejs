@@ -221,3 +221,74 @@ console.log(item[0], item[1] - w);
 console.log(
   "57. -------------------------------------------------------------"
 );
+
+let s = "";
+for (let i = 0; i < 1000; i++) {
+  s += i;
+}
+
+let count = 0;
+for (let k in s) {
+  //   if (k == 1) count++;
+  // for of 일 때
+  if (s[k] == 1) count++;
+  // for in 일 때
+}
+
+console.log(count);
+
+console.log(
+  "58. -------------------------------------------------------------"
+);
+
+const num58 = 10000000000000;
+let arr58 = [];
+function comma(n) {
+  const num2str = n.toString();
+  if (num2str.length < 4) {
+    rtnString = num2str + "," + arr58.reverse().join(",");
+    return console.log(rtnString);
+  } else {
+    arr58.push(num2str.slice(num2str.length - 3, num2str.length));
+    comma(num2str.slice(0, num2str.length - 3));
+  }
+}
+
+comma(num58);
+
+console.log(
+  "59. -------------------------------------------------------------"
+);
+
+const inputStr59 = "hi";
+
+const strLeft = 25 - parseInt(inputStr59.length / 2, 10);
+
+const left = inputStr59.padStart(strLeft, "=");
+const right = left.padEnd(50, "=");
+
+console.log(right);
+console.log(right.length);
+
+console.log(
+  "60. -------------------------------------------------------------"
+);
+students = [
+  "강은지",
+  "김유정",
+  "박현서",
+  "최성훈",
+  "홍유진",
+  "박지호",
+  "권윤일",
+  "김채리",
+  "한지호",
+  "김진이",
+  "김민호",
+  "강채연",
+];
+students.sort();
+studentObj = {};
+for (let key in students) {
+  console.log(`번호 : ${parseInt(key, 10) + 1}, 이름 : ${students[key]}`);
+}
