@@ -1,3 +1,5 @@
+const { match } = require("assert");
+
 console.log(
   "71. -------------------------------------------------------------"
 );
@@ -203,8 +205,7 @@ console.log(
 
 let squareWidth = 5;
 let place2search = 3;
-let value = 0;
-let valueArray = [];
+
 let bomb = [
   [1, 0, 0, 1, 0],
   [0, 1, 0, 0, 1],
@@ -214,10 +215,17 @@ let bomb = [
 ];
 let iadd = 0;
 let jadd = 0;
+
+let value = 0;
+let valueArray = [];
 for (let iadd = 0; iadd <= squareWidth - place2search; iadd++) {
+  // 큰 범위(탐색범위)의 가로 이동
   for (let jadd = 0; jadd <= squareWidth - place2search; jadd++) {
+    // 세로 이동
     for (let i = iadd; i <= place2search - 1 + iadd; i++) {
+      // 범위 내에서 가로 탐색
       for (let j = jadd; j <= place2search - 1 + jadd; j++) {
+        // 범위 내에서 세로 탐색
         // console.log(i, j);
         value += bomb[i][j];
       }
@@ -239,3 +247,127 @@ for (let i of valueArray) {
 }
 
 console.log(maxValue);
+
+console.log(
+  "77. -------------------------------------------------------------"
+);
+
+function matchStr(string) {
+  let result = [];
+  for (let i = 0; i < string.length; i++) {
+    // console.log(result);
+    for (let j = 0; j < i; j++) {
+      result.push(string.slice(j, j + string.length + 1 - i));
+      console.log("%d 루프에서 %d번째 푸쉬", i, j);
+      console.log(result);
+    }
+  }
+  return result;
+}
+
+//let ArrayResult = matchStr("ABCDEF");
+let inputStr1 = "THIS";
+let inputStr2 = "IS";
+let resultArr1 = matchStr(inputStr1);
+let resultArr2 = matchStr(inputStr2);
+
+let commonStr = resultArr1
+  .filter((x) => resultArr2.includes(x))
+  .sort((a, b) => {
+    return b.length - a.length;
+  });
+
+console.log(commonStr[0].length);
+
+console.log(
+  "78. -------------------------------------------------------------"
+);
+
+const dishArray = "6 3".split(" ");
+const n = parseInt(dishArray[0], 10);
+const k = parseInt(dishArray[1], 10);
+
+console.log(n, k);
+
+function eatDishes(n, k) {
+  let index = 0;
+  let q = [];
+  for (let i = 0; i < n; i++) {
+    q.push(i + 1);
+  }
+  while (q.length > 2) {
+    if (index > q.length - 1) {
+      index -= q.length;
+    }
+    q.splice(index, 1);
+    index += k;
+    index -= 1;
+  }
+  return q;
+}
+
+let resultArr = eatDishes(n, k);
+console.log(resultArr);
+
+console.log(
+  "79. -------------------------------------------------------------"
+);
+
+const list = [10, 20, 25, 27, 34, 35, 39];
+const turn = 5;
+function arrDiffer(list, turn) {
+  let b = list.slice();
+  let c = [];
+
+  for (let i = 0; i < turn; i++) {
+    b.unshift(b.pop());
+    // unshift() 메서드를 사용하면 위치를 바꿀 수 있다 return값은 arr의 길이값
+  }
+  for (let i in b) {
+    c.push(Math.abs(list[i] - b[i]));
+  }
+  console.log(list);
+  console.log(b);
+  console.log(c);
+  const minVal = Math.min.apply(null, c);
+  let index = c.indexOf(minVal);
+  console.log("최소값 : %d", minVal);
+  console.log("인덱스값 : %d, %d", list[index], b[index]);
+}
+
+arrDiffer(list, turn);
+
+console.log(
+  "80. -------------------------------------------------------------"
+);
+
+function combination(charArray, inputNumber) {
+  let combi = [];
+
+  const f = (prefix, charArray) => {
+    for (let i = 0; i < charArray.length; i++) {
+      // console.log("f함수 실행");
+      combi.push(prefix + charArray[i]);
+      f(prefix + charArray[i], charArray.slice(i + 1));
+    }
+    return combi;
+  };
+  /*
+        prefix     charArray     combi
+        ''        ["A", "B",]   
+      
+      
+      */
+  f("", charArray);
+  console.log(combi);
+
+  const filteredArr = combi.filter((x) => {
+    return x.length === inputNumber;
+  });
+  return filteredArr;
+}
+const arrInput = "A,B,C,D".split(",");
+console.log(arrInput);
+const inputNumber = 2;
+const filteredArray = combination(arrInput, inputNumber);
+console.log(filteredArray);
