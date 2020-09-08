@@ -221,3 +221,171 @@ function eatSushi(point, dish) {
 }
 
 console.log(eatSushi(point, dish));
+
+console.log(
+  "87. -------------------------------------------------------------"
+);
+const name = "손오공 야무챠 베지터 피콜로".split(" ");
+const pointOf = "70 10 55 40".split(" ");
+
+const point_int = pointOf.map((x) => {
+  return parseInt(x, 10);
+});
+
+function sol(name, point) {
+  let temp = [];
+  for (let i of name) {
+    let obj = {};
+    obj["name"] = i;
+    obj["value"] = point[name.indexOf(i)];
+    temp.push(obj);
+  }
+  temp.sort((a, b) => {
+    return a.value < b.value ? 1 : a.value > b.value ? -1 : 0;
+  });
+  console.log(temp);
+  let resultObj = {};
+  for (let i of temp) {
+    resultObj[i["name"]] = temp.indexOf(i) + 1;
+  }
+  console.log(resultObj);
+}
+
+sol(name, point_int);
+
+console.log(
+  "88~89. -------------------------------------------------------------"
+);
+
+const xaxis = 4;
+const yaxis = 5;
+const charAxis = [0, 0];
+const obstacle = [
+  [0, 1],
+  [1, 1],
+  [2, 3],
+  [1, 3],
+];
+const moveChar = [2, 2, 2, 4, 4, 4];
+
+function make_map(xaxis, yaxis, charAxis, obstacle, moveChar) {
+  let map = [];
+  for (let y = 0; y < yaxis + 2; y++) {
+    map.push(Array(xaxis + 2).fill(0));
+  }
+  console.log(map);
+  const realCharAxis = charAxis.map((x) => {
+    return x + 1;
+  });
+  const realObstacleAxis = obstacle.map((x, index) => {
+    return x.map((y) => {
+      return y + 1;
+    });
+  });
+  console.log(realCharAxis, realObstacleAxis);
+  map.map((value, index) => {
+    if (index === 0 || index === map.length - 1) {
+      for (let v = 0; v < value.length; v++) {
+        value[v] = 2;
+      }
+    }
+    value[0] = 2;
+    value[value.length - 1] = 2;
+  });
+
+  // 캐릭터 위치 설정
+  let charXaxis = realCharAxis[0];
+  let charYaxis = realCharAxis[1];
+  map[charXaxis][charYaxis] = 1;
+
+  // 장애물 위치 설정
+  for (let obstacle of realObstacleAxis) {
+    let obsXaxis = obstacle[0];
+    let obsYaxis = obstacle[1];
+    map[obsXaxis][obsYaxis] = 2;
+  }
+  console.log("이동 전 위치");
+  console.log(map);
+
+  for (let move of moveChar) {
+    if (move === 1 && map[charYaxis - 1][charXaxis] != 2) {
+      map[charYaxis][charXaxis] = 0;
+      charYaxis -= 1;
+      map[charYaxis][charXaxis] = 1;
+    } else if (move === 2 && map[charYaxis + 1][charXaxis] != 2) {
+      map[charYaxis][charXaxis] = 0;
+      charYaxis += 1;
+      map[charYaxis][charXaxis] = 1;
+    } else if (move === 3 && map[charYaxis][charXaxis - 1] != 2) {
+      map[charYaxis][charXaxis] = 0;
+      charXaxis -= 1;
+      map[charYaxis][charXaxis] = 1;
+    } else if (move === 4 && map[charYaxis][charXaxis + 1] != 2) {
+      map[charYaxis][charXaxis] = 0;
+      charXaxis += 1;
+      map[charYaxis][charXaxis] = 1;
+    }
+
+    // console.log("이동했습니다");
+    // console.log(map);
+  }
+
+  console.log("이동 후 위치");
+  console.log(map);
+}
+
+make_map(xaxis, yaxis, charAxis, obstacle, moveChar);
+
+console.log(
+  "90. -------------------------------------------------------------"
+);
+
+let list = [];
+
+for (let i = 65; i < 91; i++) {
+  list.push(String.fromCharCode(i));
+}
+
+console.log(list);
+
+function randomItem(a) {
+  let string = [];
+
+  while (string.length !== 8) {
+    let b = a[Math.floor(Math.random() * a.length)];
+    if (!string.includes(b)) {
+      string.push(b);
+    }
+  }
+
+  let medicine = string.join("");
+  return medicine;
+}
+console.log(randomItem(list));
+
+let total_medicine = [];
+while (total_medicine.length !== 100) {
+  let m = randomItem(list);
+  if (!total_medicine.includes(m)) {
+    total_medicine.push(m);
+  }
+}
+console.log(total_medicine);
+
+let inputStr = "ABCDEFGH 4".split(" ");
+let result = [];
+
+for (let i of total_medicine) {
+  let setUserData = new Set(inputStr[0]);
+  let setMedicine = new Set(i);
+  let intersection = new Set(
+    [...setUserData].filter((x) => {
+      return setMedicine.has(x);
+    })
+  );
+  if (intersection.size === parseInt(inputStr[1], 10)) {
+    result.push(i);
+  }
+}
+console.log(result);
+console.log(result.length);
