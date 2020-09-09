@@ -103,3 +103,137 @@ solution(revField);
 //   answer[i] = answer[i - 2] + answer[i - 1];
 // }
 // console.log(answer);
+
+console.log(
+  "97. -------------------------------------------------------------"
+);
+
+function sol(worker, worktime) {
+  let answer = 0;
+  let man = Array(worker).fill(0);
+  //   console.log(man);
+
+  while (worktime.length !== 0) {
+    // 택배 상차과정
+    for (let j = 0; j < man.length; j++) {
+      if (man[j] == 0 && worktime) {
+        man[j] += worktime.shift();
+        // console.log(worktime);
+      }
+    }
+
+    // 시간 경과
+    man = man.map((time) => {
+      return (time = time - 1);
+    });
+    // map 한 값을 다시 map에 저장해줘야 무한루프에서 벗어날 수 있다
+
+    // 시간이 경과했으므로 ++;
+    answer++;
+  }
+  answer += Math.max.apply(null, man);
+  return answer;
+}
+
+const worker = 3;
+const worktime = [1, 2, 1, 3, 3, 3];
+console.log("총 경과시간 = %d초", sol(worker, worktime));
+
+console.log(
+  "98. -------------------------------------------------------------"
+);
+let input = "1번: 4,2,3 2번: 3 3번: 2,3,4,1 4번: 2,3";
+let input2 = "1번: 3,1 2번: 4 3번: 2,1,3 4번: 2,1,3,4";
+function uniqueValues(input) {
+  input = input.split(" ");
+  let score = [];
+  for (let idx in input) {
+    if (idx % 2 !== 0) score.push(input[idx].split(","));
+  }
+  console.log(score);
+  let uniqueScore = [];
+  score.map((row) => {
+    row.map((x) => {
+      // console.log(x);
+      if (!uniqueScore.includes(x)) {
+        uniqueScore.push(x);
+      }
+    });
+  });
+  return uniqueScore;
+}
+console.log(uniqueValues(input));
+console.log(uniqueValues(input2));
+
+console.log(
+  "99. -------------------------------------------------------------"
+);
+
+// const durable = [1, 2, 1, 4];
+// const jumpable = [2, 1];
+const durable = [1, 2, 1, 4, 5, 2];
+const jumpable = [2, 1, 3, 1];
+let pass = [];
+console.log(pass);
+for (let rabbit of jumpable) {
+  let iterNum = Math.floor(durable.length / rabbit);
+  //   console.log(iterNum);
+  for (let i = 1; i < iterNum + 1; i++) {
+    durable[rabbit * i - 1] -= 1;
+  }
+  console.log(durable);
+  if (!durable.includes(-1)) pass.push("pass");
+  else pass.push("fail");
+}
+console.log(pass);
+
+console.log(
+  "100. -------------------------------------------------------------"
+);
+
+let puzzle = [
+  [0, 0, 0, 0],
+  [0, 1, 0, 3],
+  [2, 5, 0, 1],
+  [2, 4, 4, 1],
+  [5, 1, 1, 1],
+];
+const control = [1, 1, 1, 1, 3, 3, 3];
+
+let stack = [];
+let score = 0;
+
+for (let move of control) {
+  // 숫자에 맞는 공을 스택에 쌓고 해당 위치는 0으로 초기화하기
+  for (let idx = 0; idx < puzzle.length; idx++) {
+    if (puzzle[idx][move - 1] > 0) {
+      stack.push(puzzle[idx][move - 1]);
+
+      // 연속된 공이라면 스코어를 곱연산으로 처리하고 더하기
+      if (stack.length > 1) {
+        for (let i = 0; i < stack.length - 1; i++) {
+          if (stack[i] === stack[i + 1]) {
+            score += stack[i] * stack[i + 1];
+            console.log(
+              "같은 공이 들어왔어요! %d의 점수를 추가합니다",
+              stack[i] * stack[i + 1]
+            );
+            console.log("현재 스코어 : %d", score);
+            stack = [];
+          }
+        }
+      }
+      puzzle[idx][move - 1] = 0;
+      break;
+    }
+
+    // 판 내에 원하는 줄에 공이 있는지 확인
+    if (puzzle[idx][move - 1] === 0 && idx === 4) {
+      score -= 1;
+      console.log("빈 공간에서 공을 꺼낼 수 없습니다 점수를 -1만큼 차감합니다");
+    }
+    // console.log("현재 스코어 : %d", score);
+  }
+}
+console.log(stack);
+console.log(score);
